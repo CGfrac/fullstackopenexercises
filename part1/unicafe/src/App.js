@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const DisplayCounter = ({ text, counter }) => <p>{text} {counter}</p>
+const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
 
 const Statistics = ({ good, bad, neutral, total }) => {
   if (total === 0) {
@@ -14,12 +14,12 @@ const Statistics = ({ good, bad, neutral, total }) => {
 
   return (
     <>
-      <DisplayCounter text="good" counter={good} />
-      <DisplayCounter text="neutral" counter={neutral} />
-      <DisplayCounter text="bad" counter={bad} />
-      <DisplayCounter text="all" counter={total} />
-      <p>average {calculateAverageScore()}</p>
-      <p>positive {calculatePositiveRatio()}</p>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={total} />
+      <StatisticLine text="average" value={calculateAverageScore()} />
+      <StatisticLine text="positive" value={calculatePositiveRatio()} />
     </>
   )
 }
