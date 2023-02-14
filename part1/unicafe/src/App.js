@@ -1,25 +1,16 @@
 import { useState } from 'react'
 
-const DisplayCounter = ({ text, counter }) => {
-  return (
-    <p>{text} {counter}</p>
-  )
-}
+const DisplayCounter = ({ text, counter }) => <p>{text} {counter}</p>
 
 const Statistics = ({ good, bad, neutral, total }) => {
-  const calculateAverageScore = () => {
-    if (total === 0) {
-      return 0
-    }
-    return (good - bad) / total
+  if (total === 0) {
+    return (
+      <div>No feedback given</div>
+    )
   }
 
-  const calculatePositiveRatio = () => {
-    if (total === 0) {
-      return "0%"
-    }
-    return `${good / total * 100}%`
-  }
+  const calculateAverageScore = () =>  (good - bad) / total
+  const calculatePositiveRatio = () =>  `${good / total * 100}%`
 
   return (
     <>
@@ -33,11 +24,7 @@ const Statistics = ({ good, bad, neutral, total }) => {
   )
 }
 
-const Button = ({ handleClick, text }) => {
-  return (
-    <button onClick={handleClick}>{text}</button>
-  )
-}
+const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
 const App = () => {
   // save clicks of each button to its own state
