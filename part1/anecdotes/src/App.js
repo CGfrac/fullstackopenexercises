@@ -34,7 +34,7 @@ const App = () => {
 
     do {
       newSelected = _randomIndex(anecdotes.length)
-    } while (newSelected == selected)
+    } while (newSelected === selected)
 
     setSelected(newSelected)
   }
