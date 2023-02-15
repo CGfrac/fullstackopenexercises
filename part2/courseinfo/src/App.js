@@ -1,38 +1,36 @@
-const Header = (props) => {
-  return (
-    <h1>{props.title}</h1>
-  )
-}
+const Header = ({ title }) => <h1>{title}</h1>
 
-const Content = (props) => {
+const Part = ({ part }) => <p>{part.name} {part.exercises}</p>
+
+const Content = ({ parts }) => {
   return (
     <>
-    <p>
-      {props.parts[0].name} {props.parts[0].exercises}
-    </p>
-    <p>
-      {props.parts[1].name} {props.parts[1].exercises}
-    </p>
-    <p>
-      {props.parts[2].name} {props.parts[2].exercises}
-    </p>
+      {parts.map(part =>
+        <Part key={part.id} part={part} />
+      )}
     </>
   )
 }
 
-const Total = (props) => {
+const Total = ({ parts }) => {
+  let total = 0
+
+  for (const part of parts) {
+    total += part.exercises
+  }
+
   return (
-    <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
+    <p>Number of exercises {total}</p>
   )
 }
 
 const Course = ({ course }) => {
   return (
-    <div>
+    <>
       <Header title={course.name} />
       <Content parts={course.parts} />
       <Total parts={course.parts} />
-    </div>
+    </>
   )
 }
 
