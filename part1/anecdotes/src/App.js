@@ -2,6 +2,15 @@ import { useState } from 'react'
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
+const AnecdoteDisplay = ({ anecdote, votes }) => {
+  return (
+    <>
+      <div>{anecdote}</div>
+      <div>has {votes} votes</div>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -18,13 +27,13 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
   
-  const _randomIndex = () => Math.floor(Math.random() * anecdotes.length)
+  const _randomIndex = (length) => Math.floor(Math.random() * length)
 
   const showRandomAnecdote = () => {
     let newSelected
 
     do {
-      newSelected = _randomIndex()
+      newSelected = _randomIndex(anecdotes.length)
     } while (newSelected == selected)
 
     setSelected(newSelected)
@@ -33,16 +42,44 @@ const App = () => {
   const addVote = () => {
     const votesCopy = [...votes]
     votesCopy[selected]++
-    
+
     setVotes(votesCopy)
   }
 
+  const _findMostVotes = () => {
+    let maxVotes = 0
+
+    for (const vote of votes) {
+      maxVotes = vote > maxVotes ? vote : maxVotes
+    }
+
+    return maxVotes
+  }
+
+  const _findMostVotedAnecdote = () => {
+    const maxVotes = _findMostVotes()
+    const indices = []
+
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i] === maxVotes) {
+        indices.push(i)
+      }
+    }
+
+    return indices[_randomIndex(indices.length)]
+  }
+
+  const mostVotedIndex = _findMostVotedAnecdote()
+
   return (
     <>
-      <div>{anecdotes[selected]}</div>
-      <div>has {votes[selected]} votes</div>
+      <h2>Anecdote of the day</h2>
+      <AnecdoteDisplay anecdote={anecdotes[selected]} votes={votes[selected]} />
       <Button handleClick={addVote} text="vote" />
       <Button handleClick={showRandomAnecdote} text="next anecdote" />
+
+      <h2>Anecdote with most votes</h2>
+      <AnecdoteDisplay anecdote={anecdotes[mostVotedIndex]} votes={votes[mostVotedIndex]} />
     </>
   )
 }
